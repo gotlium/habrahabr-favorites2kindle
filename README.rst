@@ -12,18 +12,18 @@ Habrahabr Favorites to Kindle
 
 Установка и настройка
 ---------------------
-1. Создайте аккаунт на сайте readability.com
-2. Добавьте Kindle Email в настройки аккаунта Readability -> Kindle Settings (для каждого девайса возможно создать email адрес в настройках девайса на Амазоне)
+1. Создайте аккаунт на сайте `Readability <http://readability.com>`_
+2. Добавьте Kindle Email в настройки аккаунта `Readability -> Kindle Settings <https://www.readability.com/settings/kindle>`_ (для каждого девайса возможно создать email адрес в настройках девайса на `Амазоне <https://www.amazon.com/mn/dcw/myx.html#/home/devices/1>`_)
 3. Разрешите адрес kindle@readability.com в `настройках <https://www.amazon.com/gp/digital/fiona/manage?ie=UTF8&*Version*=1&*entries*=0&#pdocSettings>`_ Амазона
 4. Установите расширение `Readability <https://chrome.google.com/webstore/detail/readability/oknpjjbmpnndlpmnhmekjpocelpnlfdi>`_ для Google Chrome
 5. Авторизируйтесь в раширении Readability в браузере
 6. Проверьте верность настроек, и попробуйте выслать какую-нибудь статью на Kindle используя установленное расширение
-7. Откройте chrome://extensions/ -> Readability -> Фоновая страница -> Network
+7. Откройте в браузере Настройки -> Расширения -> Readability -> Фоновая страница -> Network
 8. Отправьте тестовую статью на Ваш Kindle, чтобы удостовериться что все настроено верно
 9. Скопируйте куки, которые были высланы на /api/session/v1/kindle/send/ и заполните значения словаря COOKIES в settings.py
-10. Установите пакеты -> pip install -r requirements.txt (используйте virtualenv)
-11. Запустите скрипт отправки избранного -> python main.py
-12. Добавьте вызов в cron, для автоматизации процесса -> */10 * * * * flock -n /tmp/hf2k.lock -c "python /path-to-app/main.py"
+10. Установите пакеты -> pip install -r requirements.txt (используйте virtualenv, если sudo неуместен)
+11. Запустите скрипт парсинга и отправки избранного на Kindle -> python main.py
+12. Добавьте вызов в cron, для автоматизации данного процесса -> */10 * * * * flock -n /tmp/hf2k.lock -c "python /path-to-app/main.py"
 13. Можно включить DEBUG, если необходимо выводить лог в консоль. В противном случае логи будут в файле habrahabr-favorites2kindle.log
 
 
