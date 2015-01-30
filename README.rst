@@ -12,6 +12,7 @@ Habrahabr Favorites to Kindle
 
 Установка и настройка
 ---------------------
+0. Склонируйте репозиторий -> git clone --depth 1 https://github.com/gotlium/habrahabr-favorites2kindle.git
 1. Создайте аккаунт на сайте `Readability <http://readability.com>`_
 2. Добавьте Kindle Email в настройки аккаунта `Readability -> Kindle Settings <https://www.readability.com/settings/kindle>`_ (для каждого девайса возможно создать email адрес в настройках девайса на `Амазоне <https://www.amazon.com/mn/dcw/myx.html#/home/devices/1>`_)
 3. Разрешите адрес kindle@readability.com в `настройках <https://www.amazon.com/gp/digital/fiona/manage?ie=UTF8&*Version*=1&*entries*=0&#pdocSettings>`_ Амазона
