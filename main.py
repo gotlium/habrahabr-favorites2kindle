@@ -1,5 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import logging
 import shelve
+import time
 import os
 
 import grab
@@ -20,7 +24,7 @@ logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
 NEXT_PAGE_PATH = '//a[@id="next_page"]/@href'
-POSTS_URL_PATH = '//h1[@class="title"]/a[contains(@href, "/post/")]/@href'
+POSTS_URL_PATH = '//h1[@class="title"]/a[contains(@href, "/post/") or contains(@href, "/blog/")]/@href'
 
 
 class HabrahabrFav2Kindle(object):
@@ -63,6 +67,7 @@ class HabrahabrFav2Kindle(object):
             if code == 202:
                 logger.debug("Sent: %s" % post_url)
                 self.db[post_url] = True
+                time.sleep(1)
                 return
             logger.error("Error: %s" % body)
         else:
