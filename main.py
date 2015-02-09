@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import optparse
 import logging
 import shelve
 import time
@@ -31,6 +32,21 @@ class HabrahabrFav2Kindle(object):
     def __init__(self):
         self.grab = grab.Grab()
         self.db = shelve.open(DB_FILE)
+        self.arg = self.get_arguments()
+        self.page = 1
+
+    @staticmethod
+    def get_arguments():
+        parser = optparse.OptionParser()
+        parser.add_option(
+            "--gt", dest="geektimes", action="store_true", default=False)
+        parser.add_option(
+            "--mm", dest="megamozg", action="store_true", default=False)
+        parser.add_option(
+            "--page-limit", dest="limit", action="store", default=None)
+        parser.add_option(
+            "--username", dest="user", action="store", default=settings.USER)
+        return parser.parse_args()[0]
 
     def get_page(self, url):
         self.grab.go(url)
@@ -85,15 +101,25 @@ class HabrahabrFav2Kindle(object):
         logger.debug('Starting')
         logger.debug('Project path is %s' % PROJECT_PATH)
 
-        self.process_posts(settings.HABRAHABR_USER_FAV)
+        self.process_posts(self.get_fav_url())
 
         while self.get_next_page():
+            if self.arg.limit and int(self.arg.limit) == self.page:
+                break
             self.process_posts(self.get_next_page())
+            self.page += 1
 
         self.db.close()
 
     def __del__(self):
         self.db.close()
+
+    def get_fav_url(self, key='habrahabr'):
+        if self.arg.megamozg:
+            key = 'megamozg'
+        if self.arg.geektimes:
+            key = 'geektimes'
+        return settings.HABRAHABR_USER_FAV.get(key) % self.arg.user
 
 
 if __name__ == '__main__':

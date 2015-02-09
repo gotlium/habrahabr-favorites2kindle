@@ -22,7 +22,7 @@ Habrahabr Favorites to Kindle
 7. Откройте в браузере Настройки -> Расширения -> Readability -> Фоновая страница -> Network
 8. Отправьте тестовую статью на Ваш Kindle, чтобы удостовериться что все настроено верно
 9. Скопируйте куки, которые были высланы на /api/session/v1/kindle/send/ и заполните значения словаря COOKIES в settings.py
-10. Измените USERNAME на свой в константе HABRAHABR_USER_FAV в settings.py
+10. Измените USERNAME на свой в константе USER в settings.py
 11. Установите пакеты -> pip install -r requirements.txt (используйте virtualenv, если sudo неуместен)
 12. Запустите скрипт парсинга и отправки избранного на Kindle -> python main.py
 13. Добавьте вызов в cron, для автоматизации данного процесса -> */10 * * * * flock -n /tmp/hf2k.lock -c "python /path-to-app/main.py"

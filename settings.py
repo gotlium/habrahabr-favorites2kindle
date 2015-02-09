@@ -1,7 +1,12 @@
 DEBUG = False
 
 # Favorite page
-HABRAHABR_USER_FAV = "http://habrahabr.ru/users/USERNAME/favorites/"
+USER = 'USERNAME'
+HABRAHABR_USER_FAV = {
+    'geektimes': 'http://geektimes.ru/users/%s/favorites/',
+    'habrahabr': 'http://habrahabr.ru/users/%s/favorites/',
+    'megamozg': 'http://megamozg.ru/users/%s/favorites/',
+}
 
 # Chrome extension emulation data
 COOKIES = {
