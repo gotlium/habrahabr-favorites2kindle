@@ -32,3 +32,12 @@ Habrahabr Favorites to Kindle
 Дополнительно
 -------------
 Если есть необходимость удалить все данные, это можно сделать на страничке `CloudDrive <https://www.amazon.com/clouddrive/>`_ -> My Send-to-Kindle Docs
+
+
+Описание опций
+--------------
+
+    --gt                  Geektimes.ru
+    --mm                  Megamozg.ru
+    --page-limit=LIMIT    Парсить лишь указаное число страниц с избранного
+    --username=USER       Переопределение пользователя по умолчанию в настройках
