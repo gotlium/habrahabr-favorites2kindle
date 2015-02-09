@@ -39,5 +39,6 @@ Habrahabr Favorites to Kindle
 
     --gt                  Geektimes.ru
     --mm                  Megamozg.ru
+    --reverse             Считывать избранное с конца
     --page-limit=LIMIT    Парсить лишь указаное число страниц с избранного
     --username=USER       Переопределение пользователя по умолчанию в настройках

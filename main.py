@@ -25,15 +25,23 @@ logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
 NEXT_PAGE_PATH = '//a[@id="next_page"]/@href'
+PREVIOUS_PAGE_PATH = '//a[@id="previous_page"]/@href'
+END_PAGE_PATH = u'//a[@title="Последняя страница"]/@href'
 POSTS_URL_PATH = '//h1[@class="title"]/a[contains(@href, "/post/") or contains(@href, "/blog/")]/@href'
 
 
 class HabrahabrFav2Kindle(object):
     def __init__(self):
+        self.page = 1
         self.grab = grab.Grab()
+        self.grab.setup(
+            connect_timeout=5,
+            timeout=5,
+            hammer_mode=True,
+            hammer_timeouts=((60, 70), (80, 90), (100, 110), (110, 120))
+        )
         self.db = shelve.open(DB_FILE)
         self.arg = self.get_arguments()
-        self.page = 1
 
     @staticmethod
     def get_arguments():
@@ -42,6 +50,8 @@ class HabrahabrFav2Kindle(object):
             "--gt", dest="geektimes", action="store_true", default=False)
         parser.add_option(
             "--mm", dest="megamozg", action="store_true", default=False)
+        parser.add_option(
+            "--reverse", dest="reverse", action="store_true", default=False)
         parser.add_option(
             "--page-limit", dest="limit", action="store", default=None)
         parser.add_option(
@@ -57,6 +67,16 @@ class HabrahabrFav2Kindle(object):
         next_page = self.grab.doc.select(NEXT_PAGE_PATH)
         if next_page.exists():
             return next_page.text()
+
+    def get_previous_page(self):
+        previous_page = self.grab.doc.select(PREVIOUS_PAGE_PATH)
+        if previous_page.exists():
+            return previous_page.text()
+
+    def get_end_page(self):
+        end_page = self.grab.doc.select(END_PAGE_PATH)
+        if end_page.exists():
+            return end_page.text()
 
     def get_posts(self):
         posts_urls = self.grab.doc.select(POSTS_URL_PATH)
@@ -97,29 +117,41 @@ class HabrahabrFav2Kindle(object):
             self.send2kindle(post_url)
             logger.debug('')
 
-    def run(self):
-        logger.debug('Starting')
-        logger.debug('Project path is %s' % PROJECT_PATH)
-
-        self.process_posts(self.get_fav_url())
-
-        while self.get_next_page():
-            if self.arg.limit and int(self.arg.limit) == self.page:
-                break
-            self.process_posts(self.get_next_page())
-            self.page += 1
-
-        self.db.close()
-
-    def __del__(self):
-        self.db.close()
+    def get_start_page(self, key):
+        url = settings.HABRAHABR_USER_FAV.get(key) % self.arg.user
+        if self.arg.reverse is True:
+            self.get_page(url)
+            url = self.get_end_page()
+        return url
 
     def get_fav_url(self, key='habrahabr'):
         if self.arg.megamozg:
             key = 'megamozg'
         if self.arg.geektimes:
             key = 'geektimes'
-        return settings.HABRAHABR_USER_FAV.get(key) % self.arg.user
+        return self.get_start_page(key)
+
+    def _get_next_page(self):
+        if self.arg.reverse is True:
+            return self.get_previous_page()
+        return self.get_next_page()
+
+    def run(self):
+        logger.debug('Starting')
+        logger.debug('Project path is %s' % PROJECT_PATH)
+
+        self.process_posts(self.get_fav_url())
+
+        while self._get_next_page():
+            if self.arg.limit and int(self.arg.limit) == self.page:
+                break
+            self.process_posts(self._get_next_page())
+            self.page += 1
+
+        self.db.close()
+
+    def __del__(self):
+        self.db.close()
 
 
 if __name__ == '__main__':
