@@ -11,6 +11,7 @@ HABRAHABR_USER_FAV = {
 # Chrome extension emulation data
 COOKIES = {
     'csrftoken': "",
+    'readabilityToken': "",
     'kindleUserDetails': "",
     'production': "",
     '_ga': ""
@@ -21,6 +22,7 @@ COOKIES = {
     'csrftoken': '1CULFlW3by7I7diVXP0XlIG8lzuMpyEY',
     'kindleUserDetails': '%7B%22username%22%3A%20%22My-Kindle-Email%22%2C%20%22domain%22%3A%20%22kindle.com%22%7D',
     'production': '4b1b2fe3108ad4756e0d783bfd952f19',
+    'readabilityToken': 'h5ATqD7d2w49L5NueapwB9s45gh3sUvbzWAU',
     '_ga': 'GA1.2.1287105590.1381711368'
 }
 '''
